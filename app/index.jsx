@@ -4,13 +4,21 @@ import background from "../assets/images/background.png";
 import ThemedText from "../components/themed-text";
 import ThemedView from "../components/themed-view";
 import Spacer from "../components/spacer";
+import useUser from "../hooks/use-user";
 
 export default function Home() {
+	const { user } = useUser();
+
 	return (
-		<ThemedView>
+		<ThemedView style={{ alignItems: "center" }}>
 			<Image
 				source={background}
-				style={{ height: "50%", position: "relative", objectFit: "contain" }}
+				style={{
+					height: "50%",
+					position: "relative",
+
+					objectFit: "contain",
+				}}
 			/>
 
 			<View style={{ position: "absolute", top: "50%" }}>
@@ -25,6 +33,13 @@ export default function Home() {
 				<Link href="/login">
 					<ThemedText style={{ fontWeight: "bold", fontSize: 18 }}>
 						Login
+					</ThemedText>
+				</Link>
+
+				<Spacer />
+				<Link href="/profile">
+					<ThemedText style={{ fontWeight: "bold", fontSize: 18 }}>
+						Profile
 					</ThemedText>
 				</Link>
 			</View>

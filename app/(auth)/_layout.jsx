@@ -8,7 +8,7 @@ const AuthLayout = () => {
 	const theme = COLORS[colorScheme] ?? COLORS["light"];
 	return (
 		<>
-			<StatusBar value="auto" />
+			<StatusBar style="auto" />
 			<Stack
 				screenOptions={{
 					headerStyle: { backgroundColor: theme.navBackground },

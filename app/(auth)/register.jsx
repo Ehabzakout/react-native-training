@@ -1,33 +1,69 @@
-import { StyleSheet, Text, View } from "react-native";
+import {
+	StyleSheet,
+	Text,
+	View,
+	TouchableWithoutFeedback,
+	Keyboard,
+} from "react-native";
 
 import ThemedView from "../../components/themed-view";
 import ThemedText from "../../components/themed-text";
 import { Link } from "expo-router";
 import ThemedPressable from "../../components/themed-pressable";
 import Spacer from "../../components/spacer";
+import { useState } from "react";
+import ThemedInput from "../../components/themed-input";
+import useUser from "../../hooks/use-user";
 
 const Register = () => {
-	const handleSubmit = () => {
-		console.log("Register form ");
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const [error, setError] = useState(null);
+	const { register, user } = useUser();
+	const handleSubmit = async () => {
+		try {
+			await register(email, password);
+		} catch (error) {
+			setError(error.message);
+		}
 	};
 	return (
-		<ThemedView style={styles.container}>
-			<ThemedText title={true}>Register</ThemedText>
-			<Spacer height={100} />
-			<View style={{ width: "50%" }}>
-				<ThemedPressable onPress={handleSubmit}>
-					<Text style={{ color: "white" }}>Register</Text>
-				</ThemedPressable>
-			</View>
-			<Spacer height={100} />
-			<Link href={"/"}>
-				<ThemedText title={true}>Homepage</ThemedText>
-			</Link>
-			<Spacer />
-			<Link href={"/login"}>
-				<ThemedText>Login</ThemedText>
-			</Link>
-		</ThemedView>
+		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+			<ThemedView style={styles.container}>
+				<ThemedText title={true}>Register</ThemedText>
+				<Spacer height={100} />
+				<ThemedInput
+					placeholder="Email"
+					keyboardType="email-address"
+					style={{ width: "80%", marginBottom: 10 }}
+					value={email}
+					onChangeText={setEmail}
+				/>
+				<ThemedInput
+					placeholder="Password"
+					style={{ width: "80%", marginBottom: 10 }}
+					value={password}
+					onChangeText={setPassword}
+					secureTextEntry={true}
+				/>
+				<Spacer />
+				<View style={{ width: "50%" }}>
+					<ThemedPressable onPress={handleSubmit}>
+						<Text style={{ color: "white" }}>Register</Text>
+					</ThemedPressable>
+				</View>
+				<Spacer />
+				{error && <Text style={styles.error}>{error}</Text>}
+				<Spacer height={100} />
+				<Link href={"/"}>
+					<ThemedText title={true}>Homepage</ThemedText>
+				</Link>
+				<Spacer />
+				<Link href={"/login"}>
+					<ThemedText>Login</ThemedText>
+				</Link>
+			</ThemedView>
+		</TouchableWithoutFeedback>
 	);
 };
 
@@ -38,5 +74,13 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: "center",
 		justifyContent: "center",
+	},
+	error: {
+		color: "#f00",
+		maxWidth: "80%",
+		backgroundColor: "rgba(245, 225, 225, 1)",
+		paddingHorizontal: 20,
+		paddingVertical: 10,
+		borderRadius: 10,
 	},
 });
