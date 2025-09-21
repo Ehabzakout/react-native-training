@@ -1,16 +1,19 @@
 import { createContext, useEffect, useState } from "react";
 import { account } from "../lib/app-write";
 import { ID } from "react-native-appwrite";
+import { useRouter } from "expo-router";
 
 export const userContext = createContext();
 
 export default function UserProvider({ children }) {
 	const [user, setUser] = useState(null);
+	const router = useRouter();
 	const login = async (email, password) => {
 		try {
 			await account.createEmailPasswordSession({ email, password });
 			const user = await account.get();
 			setUser(user);
+			router.replace("/");
 		} catch (error) {
 			throw new Error(error.message || "Can't login");
 		}

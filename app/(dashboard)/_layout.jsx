@@ -3,11 +3,12 @@ import { useColorScheme } from "react-native";
 import { COLORS } from "../../constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
+import UserOnly from "../../components/user-only";
 const DashboardLayout = () => {
 	const colorScheme = useColorScheme();
 	const theme = COLORS[colorScheme] ?? COLORS.light;
 	return (
-		<>
+		<UserOnly>
 			<StatusBar style="auto" />
 			<Tabs
 				screenOptions={{
@@ -62,8 +63,9 @@ const DashboardLayout = () => {
 						),
 					}}
 				/>
+				<Tabs.Screen name="book/[id]" options={{ href: null }} />
 			</Tabs>
-		</>
+		</UserOnly>
 	);
 };
 
